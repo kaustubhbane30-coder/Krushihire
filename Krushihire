@@ -1,0 +1,76 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KrishiHire - Farm Machinery Booking</title>
+<style>
+body{font-family:Arial, sans-serif;margin:0;background:#f5f5f5}
+header{background:#2e7d32;color:white;padding:15px;text-align:center}
+.container{padding:20px}
+.card{background:white;border-radius:10px;padding:15px;margin:10px;box-shadow:0 2px 5px rgba(0,0,0,0.1)}
+button{background:#2e7d32;color:white;border:none;padding:10px 15px;border-radius:5px;cursor:pointer}
+button:hover{background:#1b5e20}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px}
+input{padding:8px;margin:5px 0;width:100%}
+#loginPage,#mainPage{max-width:900px;margin:auto}
+</style>
+</head>
+<body><header>
+<h1>KrishiHire</h1>
+<p>Farm Machinery Custom Hiring Platform</p>
+</header><div class="container"><div id="loginPage">
+<h2>Farmer Login</h2>
+<input type="text" id="username" placeholder="Enter your name">
+<button onclick="login()">Login</button>
+</div><div id="mainPage" style="display:none">
+<h2>Available Machines</h2><div class="grid" id="machineList"></div><h2>My Bookings</h2>
+<ul id="bookingList"></ul>
+</div></div><script>
+const machines=[
+{name:"Tractor",price:"₹800/hour"},
+{name:"Rotavator",price:"₹1200/acre"},
+{name:"Seed Drill",price:"₹900/acre"},
+{name:"Cultivator",price:"₹700/acre"},
+{name:"Reaper",price:"₹1500/acre"}
+];
+
+let bookings=[];
+
+function login(){
+let name=document.getElementById("username").value;
+if(name.length>0){
+document.getElementById("loginPage").style.display="none";
+document.getElementById("mainPage").style.display="block";
+loadMachines();
+}
+}
+
+function loadMachines(){
+let container=document.getElementById("machineList");
+container.innerHTML="";
+
+machines.forEach((m,index)=>{
+let card=document.createElement("div");
+card.className="card";
+card.innerHTML=`<h3>${m.name}</h3><p>${m.price}</p><button onclick="bookMachine(${index})">Book</button>`;
+container.appendChild(card);
+});
+}
+
+function bookMachine(index){
+bookings.push(machines[index]);
+updateBookings();
+}
+
+function updateBookings(){
+let list=document.getElementById("bookingList");
+list.innerHTML="";
+
+bookings.forEach(b=>{
+let li=document.createElement("li");
+li.textContent=b.name+" - "+b.price;
+list.appendChild(li);
+});
+}
+</script></body>
+</html>
